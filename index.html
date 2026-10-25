@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Papai Kumar Paul — WordPress & Web Developer</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Bootstrap 5 CSS (before our own CSS) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome (icons) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+  /* =========================================================
+     Custom CSS on top of Bootstrap
+     Bootstrap  -> container / row / col-* / gutters / offcanvas
+     This file  -> colours, cards, hero art, timeline, form look
+     ========================================================= */
+  :root{
+    --bg:#060a16;
+    --bg-alt:#080d1c;
+    --panel:#0b1224;
+    --panel-2:#101830;
+    --border:#18223e;
+    --border-2:#223056;
+    --text:#eef1fa;
+    --muted:#8a94b2;
+    --blue:#3b82ff;
+    --blue-2:#5b9bff;
+    --violet:#7b5cff;
+    --grad:linear-gradient(90deg,#2f6bff 0%,#7b5cff 100%);
+    --grad-diag:linear-gradient(135deg,#2f6bff,#4f9bff);
+    --radius:12px;
+  }
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.55;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  a:hover{color:inherit;}
+  img{max-width:100%;display:block;}
+  h1,h2,h3,h4,h5{font-weight:700;letter-spacing:-0.01em;}
+
+  .container{max-width:1180px;--bs-gutter-x:3rem;}
+  section{padding:76px 0;scroll-margin-top:72px;border-top:1px solid var(--border);}
+  section.no-border{border-top:0;}
+
+  /* ---------- small reusable bits ---------- */
+  .eyebrow{
+    display:flex;align-items:center;gap:10px;
+    color:var(--blue-2);font-weight:600;font-size:13.5px;margin-bottom:10px;
+  }
+  .eyebrow::before{content:'';width:16px;height:2px;background:var(--blue-2);}
+  .sec-title{font-size:30px;line-height:1.2;margin-bottom:26px;}
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:26px;}
+  .sec-head .sec-title{margin-bottom:0;}
+  .view-all{font-size:13px;font-weight:600;color:var(--blue-2);white-space:nowrap;}
+  .view-all:hover{color:#fff;}
+
+  .pk-btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    padding:12px 24px;border-radius:8px;font-weight:600;font-size:14px;
+    cursor:pointer;border:1px solid transparent;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .pk-btn:hover{transform:translateY(-2px);}
+  .pk-btn-primary{background:var(--grad);color:#fff;box-shadow:0 8px 28px rgba(79,100,255,.35);}
+  .pk-btn-primary:hover{color:#fff;box-shadow:0 10px 34px rgba(79,100,255,.55);}
+  .pk-btn-outline{
+    color:#fff;border:1.5px solid transparent;
+    background:linear-gradient(var(--bg),var(--bg)) padding-box, linear-gradient(90deg,#22d3c5,#7b5cff) border-box;
+  }
+  .pk-btn-outline:hover{color:#fff;}
+  .pk-pill{border-radius:999px;}
+
+  .sq-ico{
+    width:42px;height:42px;flex:0 0 42px;border-radius:11px;
+    display:flex;align-items:center;justify-content:center;font-size:19px;color:#fff;
+  }
+  .sq-ico .woo{font-size:12px;font-weight:800;letter-spacing:-.02em;}
+  .c-wp{background:linear-gradient(135deg,#2a7fd6,#1b5fb0);}
+  .c-woo{background:linear-gradient(135deg,#8a5fd0,#6a3fb3);}
+  .c-lara{background:linear-gradient(135deg,#ff6a5e,#e03b4b);}
+  .c-blue{background:linear-gradient(135deg,#2f6bff,#4f9bff);}
+  .c-orange{background:linear-gradient(135deg,#ffb020,#f58a1f);}
+  .c-green{background:linear-gradient(135deg,#6bd64a,#3fae2a);}
+  .c-teal{background:linear-gradient(135deg,#1fb8a3,#0f8f86);}
+  .c-navy{background:linear-gradient(135deg,#2547c9,#3568ff);}
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky;top:0;z-index:100;
+    background:rgba(6,10,22,0.88);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0;}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;line-height:1.25;}
+  .logo-mark{
+    width:38px;height:38px;border-radius:10px;background:var(--grad-diag);
+    display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff;
+    box-shadow:0 6px 20px rgba(47,107,255,.45);
+  }
+  .logo small{display:block;font-weight:400;font-size:10.5px;color:var(--muted);}
+  .nav-links{gap:26px;font-size:13px;font-weight:500;color:var(--muted);}
+  .nav-links a{position:relative;padding:8px 0;transition:color .15s;}
+  .nav-links a:hover, .nav-links a.active{color:#fff;}
+  .nav-links a.active::after{
+    content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;border-radius:2px;background:var(--grad);
+  }
+  .nav-right{display:flex;align-items:center;gap:14px;}
+  .burger{display:flex;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:6px;}
+  .burger span{width:24px;height:2px;background:var(--text);display:block;border-radius:2px;}
+
+  /* ---------- SIDE MENU (Bootstrap offcanvas) ---------- */
+  .offcanvas{
+    --bs-offcanvas-width:290px;--bs-offcanvas-bg:#080d1c;--bs-offcanvas-color:var(--text);
+    border-left:1px solid var(--border);
+  }
+  .offcanvas-header{border-bottom:1px solid var(--border);padding:16px 22px;}
+  .offcanvas-body{padding:8px 22px 24px;}
+  .side-links a{
+    display:block;padding:13px 0;font-size:16px;font-weight:500;color:var(--muted);
+    border-bottom:1px solid var(--border);transition:color .15s, padding-left .15s;
+  }
+  .side-links a:hover{color:#fff;padding-left:6px;}
+  .side-links a.active{color:var(--blue-2);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:72px 0 64px;border-top:0;
+    background:
+      radial-gradient(ellipse 60% 70% at 78% 40%, rgba(60,90,255,.22), transparent 70%),
+      radial-gradient(ellipse 40% 40% at 10% 0%, rgba(60,90,255,.10), transparent 70%);
+  }
+  .pill{
+    display:inline-block;padding:6px 16px;border-radius:20px;
+    background:rgba(59,130,255,.12);color:var(--blue-2);
+    font-size:12.5px;font-weight:600;margin-bottom:18px;border:1px solid rgba(59,130,255,.28);
+  }
+  .hero h1{font-size:46px;line-height:1.12;margin-bottom:16px;font-weight:800;}
+  .grad-text{
+    background:linear-gradient(90deg,#a9c1ff 0%,#5b8bff 55%,#6f5bff 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero-desc{color:#b4bcd6;font-size:15px;max-width:470px;margin-bottom:22px;}
+  .hero-feat{
+    display:flex;align-items:center;gap:10px;height:100%;
+    background:rgba(16,24,48,.7);border:1px solid var(--border-2);border-radius:10px;padding:10px 12px;
+    font-size:11px;line-height:1.3;font-weight:500;color:#cfd6ea;
+  }
+  .hero-feat .sq-ico{width:34px;height:34px;flex:0 0 34px;border-radius:9px;font-size:16px;}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin:24px 0 24px;}
+  .social-row{display:flex;gap:12px;}
+  .icon-btn{
+    width:38px;height:38px;border-radius:50%;border:1px solid var(--border-2);
+    display:flex;align-items:center;justify-content:center;color:#cfd6ea;font-size:15px;
+    transition:all .15s;background:rgba(16,24,48,.5);
+  }
+  .icon-btn:hover{color:#fff;border-color:var(--blue);background:rgba(59,130,255,.15);}
+
+  /* hero art */
+  .hero-art{position:relative;display:flex;justify-content:center;padding:20px 30px 30px;}
+  .hero-dots{
+    position:absolute;top:0;left:6%;width:120px;height:96px;opacity:.7;
+    background-image:radial-gradient(#3b6cff 1.3px,transparent 1.6px);background-size:13px 13px;
+  }
+  .photo-back{
+    position:absolute;left:4%;bottom:2%;width:58%;height:34%;border-radius:22px;
+    background:linear-gradient(135deg,#1d2f7a,#0b1332);transform:rotate(-9deg);
+    box-shadow:0 0 70px rgba(70,95,255,.35);
+  }
+  .hero-photo{
+    position:relative;width:100%;max-width:400px;aspect-ratio:1/1.12;border-radius:22px;
+    transform:rotate(-3deg);overflow:hidden;
+    background:linear-gradient(160deg,#141c3a,#0a1126);
+    border:2px solid rgba(170,195,255,.6);
+    box-shadow:0 0 0 1px rgba(100,130,255,.35), 0 24px 80px rgba(79,124,255,.5);
+  }
+  .hero-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;}
+  .float-code{
+    position:absolute;left:3%;top:30%;width:56px;height:56px;border-radius:14px;z-index:3;
+    background:var(--grad-diag);display:flex;align-items:center;justify-content:center;
+    font-size:21px;color:#fff;transform:rotate(-12deg);box-shadow:0 12px 40px rgba(47,107,255,.65);
+  }
+  .years-badge{
+    position:absolute;top:2%;right:2%;width:104px;height:104px;border-radius:50%;z-index:3;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1.05;
+    border:3px solid transparent;
+    background:linear-gradient(#0a1022,#0a1022) padding-box, linear-gradient(135deg,#22d3ee,#7b5cff) border-box;
+    box-shadow:0 0 40px rgba(110,100,255,.55);
+  }
+  .years-badge b{font-size:28px;font-weight:800;}
+  .years-badge .y{font-size:15px;font-weight:700;}
+  .years-badge small{font-size:10px;color:#c3cbe6;}
+  .hero-script{
+    position:absolute;right:-6px;bottom:10%;z-index:3;
+    font-family:'Caveat',cursive;font-size:23px;line-height:1.05;color:#cdd6f0;
+    transform:rotate(-8deg);
+  }
+  .hero-script svg{display:block;margin:6px 0 0 14px;}
+
+  /* ---------- ABOUT ---------- */
+  .about-p{color:#b4bcd6;font-size:14.5px;max-width:520px;margin-bottom:24px;}
+  .info-card{
+    height:100%;display:flex;gap:14px;align-items:flex-start;
+    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px 18px;
+  }
+  .info-card .ttl{font-weight:700;font-size:14.5px;line-height:1.2;}
+  .info-card .lbl{font-size:12px;color:var(--muted);}
+  .info-card .dsc{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.4;}
+
+  /* ---------- SKILLS ---------- */
+  .skill-box{
+    height:100%;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+    border-top:3px solid var(--tc,#3b82ff);padding:20px 16px 18px;
+    transition:transform .15s;
+  }
+  .skill-box:hover{transform:translateY(-3px);}
+  .skill-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;font-weight:600;font-size:13.5px;}
+  .skill-head .sq-ico{width:38px;height:38px;flex:0 0 38px;font-size:18px;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    font-size:10.5px;font-weight:500;background:var(--panel-2);border:1px solid var(--border-2);
+    border-radius:6px;padding:6px 10px;color:#b9c1db;
+  }
+
+  /* ---------- PROJECTS ---------- */
+  .project-card{
+    height:100%;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
+    transition:transform .2s, border-color .2s;
+  }
+  .project-card:hover{transform:translateY(-4px);border-color:var(--blue);}
+  .project-thumb{height:150px;position:relative;overflow:hidden;background:linear-gradient(135deg,#1a2342,#0b1124);}
+  .project-thumb img{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;object-position:top center;transition:transform .4s ease;
+  }
+  .project-card:hover .project-thumb img{transform:scale(1.05);}
+  .project-body{padding:14px 14px 16px;}
+  .project-title{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;}
+  .project-title h3{font-size:13.5px;margin:0;}
+  .cat{font-size:9.5px;font-weight:600;padding:3px 8px;border-radius:20px;background:#1a2340;color:#aab3cf;white-space:nowrap;}
+  .cat.health{background:rgba(59,130,255,.25);color:#7fb0ff;}
+  .project-body p{color:var(--muted);font-size:11.5px;margin-bottom:12px;min-height:52px;line-height:1.5;}
+  .project-body .chips{gap:6px;margin-bottom:14px;}
+  .project-body .chip{font-size:9.5px;padding:4px 8px;}
+  .project-links{display:flex;justify-content:space-between;font-size:11.5px;font-weight:600;color:var(--blue-2);}
+  .project-links a:hover{color:#fff;}
+
+  /* ---------- SERVICES ---------- */
+  .service-card{
+    height:100%;display:flex;align-items:center;gap:14px;
+    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 16px;
+    transition:transform .15s, border-color .15s;
+  }
+  .service-card:hover{transform:translateY(-3px);border-color:var(--blue);}
+  .service-card h3{font-size:13.5px;margin-bottom:4px;}
+  .service-card p{font-size:11.5px;color:var(--muted);margin:0;line-height:1.45;}
+  .service-card .go{margin-left:auto;color:#cfd6ea;font-size:13px;}
+
+  /* ---------- PROCESS ---------- */
+  .step{position:relative;text-align:center;padding:0 6px;}
+  .step-num{
+    width:42px;height:42px;border-radius:50%;margin:0 auto 14px;position:relative;z-index:2;
+    background:var(--c,#2f7bff);display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:700;color:#fff;box-shadow:0 0 0 6px rgba(59,130,255,.12), 0 8px 24px rgba(59,130,255,.35);
+  }
+  .step h4{font-size:13px;margin-bottom:4px;}
+  .step p{font-size:11.5px;color:var(--muted);margin:0;line-height:1.45;}
+  @media(min-width:992px){
+    .step:not(:last-child)::after{
+      content:'';position:absolute;top:21px;left:calc(50% + 34px);right:calc(-50% + 34px);
+      border-top:2px dotted #2b3a66;
+    }
+  }
+
+  /* ---------- EXPERIENCE ---------- */
+  .timeline{position:relative;padding-left:30px;}
+  .timeline::before{content:'';position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(#3b82ff,#1b2748);}
+  .t-item{position:relative;margin-bottom:26px;}
+  .t-item::before{
+    content:'';position:absolute;left:-30px;top:3px;width:16px;height:16px;border-radius:50%;
+    background:#0a1022;border:4px solid var(--blue);box-shadow:0 0 14px rgba(59,130,255,.7);
+  }
+  .t-year{font-size:12px;color:var(--blue-2);font-weight:600;margin-bottom:3px;}
+  .t-item h4{font-size:14px;margin-bottom:6px;}
+  .t-item ul{color:var(--muted);font-size:12px;padding-left:16px;margin:0;}
+  .t-item li{margin-bottom:2px;}
+  .plane-art{
+    position:relative;width:100%;min-height:200px;display:flex;align-items:center;justify-content:center;
+    color:#4a6dff;font-size:70px;
+  }
+  .plane-art i{transform:rotate(-12deg);filter:drop-shadow(0 0 22px rgba(80,110,255,.8));}
+  .plane-art::before{
+    content:'';position:absolute;inset:18% 6% 12% 10%;border-radius:50%;
+    border:2px dotted #2a3a73;border-top-color:transparent;border-right-color:transparent;transform:rotate(-25deg);
+  }
+
+  .quote-card{
+    display:flex;gap:14px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+    padding:20px 20px 16px;margin-bottom:16px;
+  }
+  .quote-ico{color:#4f7bff;font-size:22px;flex:0 0 auto;margin-top:2px;}
+  .quote-card p{font-size:12.5px;color:#c6cde4;font-style:italic;margin-bottom:14px;line-height:1.55;}
+  .quote-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .t-person{display:flex;align-items:center;gap:11px;}
+  .t-avatar{
+    position:relative;overflow:hidden;flex:0 0 40px;width:40px;height:40px;border-radius:50%;
+    background:var(--grad-diag);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;
+  }
+  .t-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .t-person .name{font-size:13px;font-weight:600;line-height:1.2;}
+  .t-person .role{font-size:11px;color:var(--muted);}
+  .stars{color:#f5b800;font-size:12px;letter-spacing:1px;white-space:nowrap;}
+
+  /* ---------- CONTACT ---------- */
+  section#contact{padding:50px 0 70px;}
+  .contact-wrap{
+    background:linear-gradient(180deg,rgba(14,22,46,.9),rgba(8,13,28,.95));
+    border:1px solid #1f3f8f;border-radius:16px;padding:40px 36px;
+    box-shadow:0 0 50px rgba(47,107,255,.12), inset 0 0 40px rgba(47,107,255,.05);
+  }
+  .contact-wrap h2{font-size:28px;margin-bottom:10px;}
+  .contact-intro{color:var(--muted);font-size:13px;margin-bottom:22px;}
+  .contact-item{display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:13px;word-break:break-word;}
+  .contact-item .sq-ico{width:36px;height:36px;flex:0 0 36px;font-size:15px;border-radius:9px;}
+  .contact-social{display:flex;gap:10px;}
+  label{display:block;font-size:11.5px;color:var(--muted);margin-bottom:6px;}
+  input, select, textarea{
+    width:100%;background:#0a1122;border:1px solid var(--border-2);border-radius:8px;
+    padding:11px 12px;color:var(--text);font-size:13px;font-family:inherit;color-scheme:dark;
+  }
+  input::placeholder, textarea::placeholder{color:#59627f;}
+  input:focus, select:focus, textarea:focus{outline:none;border-color:var(--blue);}
+  textarea{resize:vertical;min-height:84px;}
+  .form-status{font-size:12.5px;margin-top:10px;color:var(--blue-2);min-height:16px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:22px 0;border-top:1px solid var(--border);font-size:12px;color:var(--muted);}
+  .footer-brand{display:flex;align-items:center;flex-wrap:wrap;gap:12px;}
+  .footer-brand .logo-mark{width:28px;height:28px;border-radius:8px;font-size:12px;}
+  .footer-links{display:flex;justify-content:center;gap:24px;}
+  .footer-links a:hover{color:#fff;}
+  .footer-social{display:flex;justify-content:center;gap:14px;font-size:14px;}
+  .footer-social a:hover{color:#fff;}
+
+  .fade-up{animation:fadeUp .7s ease both;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+  /* ---------- RESPONSIVE EXTRAS (grid itself is Bootstrap) ---------- */
+  @media(max-width:991.98px){
+    .hero{padding:44px 0 40px;}
+    .hero-script{display:none;}
+    .contact-wrap{padding:26px 20px;}
+    section{padding:56px 0;}
+  }
+  @media(max-width:575.98px){
+    /* 3 feature cards stay in ONE row on mobile: icon on top, text below */
+    .hero-feat{flex-direction:column;justify-content:center;text-align:center;gap:8px;padding:12px 4px;font-size:10px;}
+    .hero-feat .sq-ico{width:32px;height:32px;flex:0 0 32px;font-size:15px;}
+    .hero h1{font-size:33px;}
+    .container{--bs-gutter-x:2rem;}
+    .sec-title{font-size:25px;}
+    .years-badge{width:84px;height:84px;}
+    .years-badge b{font-size:22px;}
+    .years-badge .y{font-size:12px;}
+    .sec-head{align-items:flex-start;flex-direction:column;gap:8px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header>
+  <div class="container">
+    <nav>
+      <a href="#home" class="logo">
+        <div class="logo-mark"><i class="fa-solid fa-code"></i></div>
+        <div>
+          Papai Kumar Paul
+          <small>WordPress &amp; Web Developer</small>
+        </div>
+      </a>
+
+      <!-- Desktop menu (hidden below lg) -->
+      <div class="nav-links d-none d-lg-flex" id="navLinks">
+        <a href="#home" class="active">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#services">Services</a>
+        <a href="#experience">Experience</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="nav-right">
+        <a href="#contact" class="pk-btn pk-btn-primary pk-pill d-none d-sm-inline-flex" style="padding:9px 20px;font-size:13px;">Hire Me <i class="fa-regular fa-paper-plane"></i></a>
+        <!-- Burger opens the side menu (below lg) -->
+        <button class="burger d-lg-none" type="button" aria-label="Open menu"
+                data-bs-toggle="offcanvas" data-bs-target="#sideMenu" aria-controls="sideMenu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= SIDE MENU (slides in from the right) ================= -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="sideMenu" aria-labelledby="sideMenuLabel">
+  <div class="offcanvas-header">
+    <div class="logo" id="sideMenuLabel">
+      <div class="logo-mark"><i class="fa-solid fa-code"></i></div>
+      <div>Papai Kumar Paul</div>
+    </div>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="side-links">
+      <a href="#home" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#services">Services</a>
+      <a href="#experience">Experience</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#contact" class="pk-btn pk-btn-primary pk-pill mt-4 w-100">Hire Me <i class="fa-regular fa-paper-plane"></i></a>
+  </div>
+</div>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="home">
+  <div class="container">
+    <div class="row align-items-center g-5">
+
+      <div class="col-12 col-lg-6 fade-up">
+        <span class="pill">Hello, I'm</span>
+        <h1>Papai Kumar Paul<br><span class="grad-text">WordPress &amp; Web Developer</span></h1>
+        <p class="hero-desc">I build fast, responsive and user-friendly websites using WordPress, WooCommerce and modern web technologies. I love turning ideas into real solutions.</p>
+
+        <div class="row g-2">
+          <div class="col-4">
+            <div class="hero-feat"><span class="sq-ico c-wp"><i class="fa-brands fa-wordpress"></i></span><span>WordPress<br>Development</span></div>
+          </div>
+          <div class="col-4">
+            <div class="hero-feat"><span class="sq-ico c-woo"><span class="woo">Woo</span></span><span>WooCommerce<br>Solutions</span></div>
+          </div>
+          <div class="col-4">
+            <div class="hero-feat"><span class="sq-ico c-lara"><i class="fa-brands fa-laravel"></i></span><span>PHP / Laravel<br>Development</span></div>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a href="#projects" class="pk-btn pk-btn-primary pk-pill">View My Work <i class="fa-solid fa-arrow-right"></i></a>
+          <a href="#" class="pk-btn pk-btn-outline pk-pill">Download CV <i class="fa-solid fa-download"></i></a>
+        </div>
+
+        <div class="social-row">
+          <a class="icon-btn" href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a class="icon-btn" href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a class="icon-btn" href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a class="icon-btn" href="#contact" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-6 fade-up" style="animation-delay:.15s">
+        <div class="hero-art">
+          <div class="hero-dots"></div>
+          <div class="photo-back"></div>
+          <div class="hero-photo">
+            <!-- YOUR PHOTO: assets/img/profile.jpeg -->
+            <img src="./assets/img/profile.jpeg" alt="Papai Kumar Paul">
+          </div>
+          <div class="float-code"><i class="fa-solid fa-code"></i></div>
+          <div class="years-badge"><b>2+</b><span class="y">Years</span><small>Experience</small></div>
+          <div class="hero-script">
+            Build<br>Create<br>Improve<br>Together
+            <svg width="70" height="34" viewBox="0 0 70 34" fill="none" stroke="#4f7bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 30 C 20 30, 44 24, 62 6"/><path d="M52 6 L62 6 L61 17"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-12 col-lg-6">
+        <div class="eyebrow">About Me</div>
+        <h2 class="sec-title">Turning Ideas into<br>Functional Websites</h2>
+        <p class="about-p">I'm Papai Kumar Paul, a passionate WordPress &amp; Web Developer with experience in building custom websites, WooCommerce stores and solving complex technical challenges. I enjoy working on new projects, learning new technologies and creating clean, efficient code that delivers real business value.</p>
+        <a href="#" class="pk-btn pk-btn-primary">Download Resume <i class="fa-solid fa-download"></i></a>
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <div class="row g-3">
+          <div class="col-12 col-sm-6">
+            <div class="info-card">
+              <span class="sq-ico c-blue"><i class="fa-solid fa-user-tie"></i></span>
+              <div><div class="ttl">2+ Years</div><div class="lbl">Experience</div><div class="dsc">WordPress, WooCommerce &amp; PHP Development</div></div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="info-card">
+              <span class="sq-ico c-teal"><i class="fa-solid fa-location-dot"></i></span>
+              <div><div class="ttl">India</div><div class="lbl">Location</div><div class="dsc">Kolkata, West Bengal</div></div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="info-card">
+              <span class="sq-ico c-navy"><i class="fa-solid fa-graduation-cap"></i></span>
+              <div><div class="ttl">B.Sc.</div><div class="lbl">Education</div><div class="dsc">In Computer Science</div></div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="info-card">
+              <span class="sq-ico c-blue"><i class="fa-solid fa-briefcase"></i></span>
+              <div><div class="ttl">Available</div><div class="lbl">Open to Opportunities</div><div class="dsc">Full-time / Freelance</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SKILLS ================= -->
+<section id="skills">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">My Skills</div>
+        <h2 class="sec-title">Technologies I Work With</h2>
+      </div>
+      <a href="#" class="view-all">View All Skills →</a>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="skill-box" style="--tc:#19b6a0;">
+          <div class="skill-head"><span class="sq-ico c-teal"><i class="fa-brands fa-wordpress"></i></span>WordPress &amp; WooCommerce</div>
+          <div class="chips"><span class="chip">WordPress</span><span class="chip">WooCommerce</span><span class="chip">ACF</span><span class="chip">Elementor</span><span class="chip">Custom Themes</span><span class="chip">Plugin Dev</span></div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="skill-box" style="--tc:#e5484d;">
+          <div class="skill-head"><span class="sq-ico c-lara"><i class="fa-brands fa-laravel"></i></span>PHP &amp; Laravel</div>
+          <div class="chips"><span class="chip">PHP</span><span class="chip">Laravel</span><span class="chip">MySQL</span><span class="chip">REST API</span><span class="chip">CRUD</span><span class="chip">Authentication</span></div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="skill-box" style="--tc:#3b82f6;">
+          <div class="skill-head"><span class="sq-ico c-blue"><i class="fa-solid fa-code"></i></span>Frontend Development</div>
+          <div class="chips"><span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">JavaScript</span><span class="chip">jQuery</span><span class="chip">Bootstrap 5</span><span class="chip">Responsive</span></div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="skill-box" style="--tc:#f5a524;">
+          <div class="skill-head"><span class="sq-ico c-orange"><i class="fa-solid fa-screwdriver-wrench"></i></span>Tools &amp; Others</div>
+          <div class="chips"><span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">VS Code</span><span class="chip">XAMPP</span><span class="chip">phpMyAdmin</span><span class="chip">SEO</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section id="projects">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">Featured Projects</div>
+        <h2 class="sec-title">Some of My Recent Work</h2>
+      </div>
+      <a href="#" class="view-all">View All Projects →</a>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="project-card">
+          <div class="project-thumb"><img src="assets/img/project-astugold.jpg" alt="Astu Gold website" loading="lazy" onerror="this.style.display='none'"></div>
+          <div class="project-body">
+            <div class="project-title"><h3>Astu Gold</h3><span class="cat">E-commerce</span></div>
+            <p>WooCommerce store for gold &amp; silver with custom features, checkout, wishlist and more.</p>
+            <div class="chips"><span class="chip">WordPress</span><span class="chip">WooCommerce</span><span class="chip">PHP</span></div>
+            <div class="project-links"><a href="#">Live Website →</a><a href="#">Case Study →</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="project-card">
+          <div class="project-thumb"><img src="assets/img/project-drlal.jpg" alt="Dr Lal PathLabs Kolkata website" loading="lazy" onerror="this.style.display='none'"></div>
+          <div class="project-body">
+            <div class="project-title"><h3>Dr Lal PathLabs Kolkata</h3><span class="cat health">Healthcare</span></div>
+            <p>Lab booking website with custom forms, email notifications and responsive design.</p>
+            <div class="chips"><span class="chip">WordPress</span><span class="chip">CF7</span><span class="chip">PHP</span></div>
+            <div class="project-links"><a href="#">Live Website →</a><a href="#">Case Study →</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="project-card">
+          <div class="project-thumb"><img src="assets/img/project-pacific.jpg" alt="Pacific LS Services website" loading="lazy" onerror="this.style.display='none'"></div>
+          <div class="project-body">
+            <div class="project-title"><h3>Pacific LS Services</h3><span class="cat">Business</span></div>
+            <p>Professional cleaning services website with service pages and quote forms.</p>
+            <div class="chips"><span class="chip">WordPress</span><span class="chip">Bootstrap</span><span class="chip">CSS</span></div>
+            <div class="project-links"><a href="#">Live Website →</a><a href="#">Case Study →</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="project-card">
+          <div class="project-thumb"><img src="assets/img/project-vapersworld.jpg" alt="TheVapersWorld website" loading="lazy" onerror="this.style.display='none'"></div>
+          <div class="project-body">
+            <div class="project-title"><h3>TheVapersWorld</h3><span class="cat">E-commerce</span></div>
+            <p>WooCommerce store for vape products with custom design and features.</p>
+            <div class="chips"><span class="chip">WordPress</span><span class="chip">WooCommerce</span><span class="chip">ACF</span></div>
+            <div class="project-links"><a href="#">Live Website →</a><a href="#">Case Study →</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section id="services">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">My Services</div>
+        <h2 class="sec-title">What I Can Do for You</h2>
+      </div>
+      <a href="#" class="view-all">View All Services →</a>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="service-card"><span class="sq-ico c-wp"><i class="fa-brands fa-wordpress"></i></span>
+          <div><h3>WordPress Development</h3><p>Custom themes, templates and full website development.</p></div>
+          <i class="fa-solid fa-arrow-right go"></i></div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="service-card"><span class="sq-ico c-woo"><span class="woo">Woo</span></span>
+          <div><h3>WooCommerce Development</h3><p>Online stores, custom checkout and payment integration.</p></div>
+          <i class="fa-solid fa-arrow-right go"></i></div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="service-card"><span class="sq-ico c-lara"><i class="fa-brands fa-laravel"></i></span>
+          <div><h3>Laravel Development</h3><p>Web applications, REST APIs and custom solutions.</p></div>
+          <i class="fa-solid fa-arrow-right go"></i></div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="service-card"><span class="sq-ico c-orange"><i class="fa-solid fa-bolt"></i></span>
+          <div><h3>Website Optimization</h3><p>Faster loading and better performance.</p></div>
+          <i class="fa-solid fa-arrow-right go"></i></div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="service-card"><span class="sq-ico c-green"><i class="fa-solid fa-puzzle-piece"></i></span>
+          <div><h3>Custom Plugin Development</h3><p>Tailored plugins for your specific needs.</p></div>
+          <i class="fa-solid fa-arrow-right go"></i></div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="service-card"><span class="sq-ico c-blue"><i class="fa-solid fa-shield-halved"></i></span>
+          <div><h3>Website Maintenance</h3><p>Regular updates, security and ongoing support.</p></div>
+          <i class="fa-solid fa-arrow-right go"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROCESS ================= -->
+<section>
+  <div class="container">
+    <div class="eyebrow">My Work Process</div>
+    <h2 class="sec-title">From Idea to Launch</h2>
+
+    <div class="row g-4">
+      <div class="col-6 col-md-4 col-lg-2"><div class="step"><div class="step-num" style="--c:#2b8cff;">01</div><h4>Discovery</h4><p>Understand your<br>needs and goals.</p></div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="step"><div class="step-num" style="--c:#3a7dff;">02</div><h4>Planning</h4><p>Create strategy<br>and project scope.</p></div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="step"><div class="step-num" style="--c:#4a6fff;">03</div><h4>Development</h4><p>Build and test<br>with clean code.</p></div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="step"><div class="step-num" style="--c:#2e9bff;">04</div><h4>Review</h4><p>Quality check<br>and client feedback.</p></div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="step"><div class="step-num" style="--c:#5a63ff;">05</div><h4>Launch</h4><p>Deploy and ensure<br>smooth live launch.</p></div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="step"><div class="step-num" style="--c:#7b5cff;">06</div><h4>Support</h4><p>Ongoing maintenance<br>and improvements.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EXPERIENCE + TESTIMONIALS ================= -->
+<section id="experience">
+  <div class="container">
+    <div class="row g-5">
+
+      <div class="col-12 col-lg-6">
+        <div class="eyebrow">Experience &amp; Education</div>
+        <h2 class="sec-title">My Journey</h2>
+        <div class="row align-items-center">
+          <div class="col-12 col-sm-8">
+            <div class="timeline">
+              <div class="t-item">
+                <div class="t-year">2023 – Present</div>
+                <h4>WordPress Developer — Techievolve</h4>
+                <ul>
+                  <li>Custom WordPress themes and plugins</li>
+                  <li>WooCommerce stores and client projects</li>
+                </ul>
+              </div>
+              <div class="t-item">
+                <div class="t-year">2021 – 2023</div>
+                <h4>Junior Web Developer — Freelance</h4>
+                <ul>
+                  <li>Website development and maintenance</li>
+                  <li>HTML, CSS, JavaScript, PHP, WordPress</li>
+                </ul>
+              </div>
+              <div class="t-item">
+                <div class="t-year">2016 – 2020</div>
+                <h4>B.Sc. in Computer Science</h4>
+                <ul><li>University / College</li></ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 d-none d-sm-block">
+            <div class="plane-art"><i class="fa-solid fa-paper-plane"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-6" id="testimonials">
+        <div class="sec-head">
+          <div>
+            <div class="eyebrow">What Clients Say</div>
+            <h2 class="sec-title">Client Testimonials</h2>
+          </div>
+          <a href="#" class="view-all">View All →</a>
+        </div>
+
+        <div class="quote-card">
+          <i class="fa-solid fa-quote-left quote-ico"></i>
+          <div class="flex-grow-1">
+            <p>"Papai is an excellent developer. He delivered our WooCommerce store on time and communicated very well throughout the project. Highly recommended!"</p>
+            <div class="quote-foot">
+              <div class="t-person">
+                <div class="t-avatar">SJ<img src="assets/img/client-sarah.jpg" alt="Sarah Johnson" onerror="this.style.display='none'"></div>
+                <div><div class="name">Sarah Johnson</div><div class="role">CEO, TheVapersWorld</div></div>
+              </div>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote-card">
+          <i class="fa-solid fa-quote-left quote-ico"></i>
+          <div class="flex-grow-1">
+            <p>"Very professional and skilled in WordPress. He solved all our issues and improved the performance of our website. Great work!"</p>
+            <div class="quote-foot">
+              <div class="t-person">
+                <div class="t-avatar">DM<img src="assets/img/client-david.jpg" alt="David Miller" onerror="this.style.display='none'"></div>
+                <div><div class="name">David Miller</div><div class="role">Marketing Manager, Habit CBD</div></div>
+              </div>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="no-border">
+  <div class="container">
+    <div class="contact-wrap">
+      <div class="row g-5">
+        <div class="col-12 col-lg-6">
+          <div class="eyebrow">Get In Touch</div>
+          <h2>Let's Work Together</h2>
+          <p class="contact-intro">Have a project in mind or just want to say hello?<br>Feel free to reach out. I'm always open to new opportunities.</p>
+          <div class="contact-item"><span class="sq-ico c-blue"><i class="fa-regular fa-envelope"></i></span>papaikumarpaul48@gmail.com</div>
+          <div class="contact-item"><span class="sq-ico c-blue"><i class="fa-solid fa-phone"></i></span>+91 98765 43210</div>
+          <div class="contact-item flex-wrap">
+            <span class="sq-ico c-blue"><i class="fa-solid fa-location-dot"></i></span>
+            <span class="me-2">Kolkata, West Bengal, India</span>
+            <span class="contact-social">
+              <a class="icon-btn" href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+              <a class="icon-btn" href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+              <a class="icon-btn" href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+              <a class="icon-btn" href="#" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+            </span>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <form id="contactForm">
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <label>Your Name</label>
+                <input type="text" required placeholder="Jane Doe">
+              </div>
+              <div class="col-12 col-md-6">
+                <label>Your Email</label>
+                <input type="email" required placeholder="jane@email.com">
+              </div>
+              <div class="col-12">
+                <label>Subject</label>
+                <select>
+                  <option>Select a subject</option>
+                  <option>Project Inquiry</option>
+                  <option>Job Opportunity</option>
+                  <option>General Question</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label>Message</label>
+                <textarea required placeholder="Tell me about your project..."></textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="pk-btn pk-btn-primary w-100">Send Message <i class="fa-solid fa-arrow-right"></i></button>
+                <div class="form-status" id="formStatus"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container">
+    <div class="row align-items-center gy-3 text-center text-lg-start">
+      <div class="col-12 col-lg-4">
+        <div class="footer-brand justify-content-center justify-content-lg-start">
+          <span class="logo-mark"><i class="fa-solid fa-code"></i></span>
+          <strong style="color:var(--text);">Papai Kumar Paul</strong>
+          <span style="color:var(--border-2);" class="d-none d-sm-inline">|</span>
+          <span>WordPress &amp; Web Developer</span>
+        </div>
+      </div>
+      <div class="col-12 col-lg-3">
+        <div class="footer-links">
+          <a href="#home">Home</a><a href="#about">About</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
+        </div>
+      </div>
+      <div class="col-12 col-lg-2">
+        <div class="footer-social">
+          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="col-12 col-lg-3 text-lg-end">
+        © 2025 Papai Kumar Paul.<br class="d-none d-lg-block"> All rights reserved.
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap 5 JS bundle (needed for the side menu) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // ---- Side menu: close it first, then smooth-scroll to the section ----
+  const sideMenuEl = document.getElementById('sideMenu');
+  const sideMenu = bootstrap.Offcanvas.getOrCreateInstance(sideMenuEl);
+
+  sideMenuEl.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = link.getAttribute('href');
+      sideMenuEl.addEventListener('hidden.bs.offcanvas', () => {
+        const el = document.querySelector(target);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, { once: true });
+      sideMenu.hide();
+    });
+  });
+
+  // ---- Active link highlight on scroll (desktop menu + side menu) ----
+  const sections = document.querySelectorAll('section[id]');
+  const allNavLinks = document.querySelectorAll('.nav-links a, .side-links a');
+  function setActive(){
+    let current = 'home';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+    });
+    allNavLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', setActive);
+  setActive();
+
+  // ---- Contact form (front-end only demo) ----
+  const form = document.getElementById('contactForm');
+  const status = document.getElementById('formStatus');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    status.textContent = 'Thanks! Your message has been noted (demo form — connect a backend to send it for real).';
+    form.reset();
+  });
+</script>
+
+</body>
+</html>
